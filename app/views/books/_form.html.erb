@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :category, style: "display: block" %>
-    <%= form.text_field :category %>
+    <%= form.select :category, ['小説', '技術', '文学', '雑誌', '漫画', '芸術'], prompt: 'カテゴリ選択' %>
   </div>
 
   <div>
