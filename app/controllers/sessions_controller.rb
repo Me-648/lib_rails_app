@@ -8,13 +8,13 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to books_path, notice: "ログインしました"
     else
-      flash.now[:alert] = "学生番号またはパスワードが間違っています"
+      flash[:alert] = "学生番号またはパスワードが間違っています"
       render :new
     end
   end
 
   def destroy
     reset_session
-    redirect_to login_path, notice: "ログアウトしました"
+    redirect_to books_path, notice: "ログアウトしました"
   end
 end
