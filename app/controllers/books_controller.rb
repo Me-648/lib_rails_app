@@ -4,6 +4,17 @@ class BooksController < ApplicationController
   # GET /books or /books.json
   def index
     @books = Book.all
+    
+    # フリーワード検索
+    if params[:q].present?
+      keyword = "%#{params[:q]}%"
+      @books = @books.where("title LIKE ? OR author LIKE ?", keyword, keyword)
+    end
+
+    # カテゴリで絞り込み
+    if params[:category].present?
+      @books = @books.where(category: params[:category])
+    end
   end
 
   # GET /books/1 or /books/1.json

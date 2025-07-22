@@ -2,7 +2,23 @@
 
 <% content_for :title, "Books" %>
 
-<h1 class="my-4">Books</h1>
+<h1 class="my-4">書籍検索</h1>
+
+<%= form_with url: books_path, method: :get, local: true do |form| %>
+  <div class="row mb-4">
+    <div class="col-md-7">
+      <%= form.text_field :q, value: params[:q], class: "form-control", placeholder: "タイトル・著者を入力" %>
+    </div>
+
+    <div class="col-md-2">
+      <%= form.select :category, Book.distinct.pluck(:category), include_blank: "全て", selected: params[:category], class: "form-control", prompt: "カテゴリ選択" %>
+    </div>
+
+    <div class="col-md-1">
+      <%= form.submit "検索", class: "btn btn-primary w-100" %>
+    </div>
+  </div>
+<% end %>
 
 <table class="table table-bordered">
   <thead class="thead-dark table-primary">

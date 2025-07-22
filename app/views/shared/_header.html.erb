@@ -5,7 +5,7 @@
         <%= link_to '図書館システム', books_path, class: 'logo header-link' %>
       </div>
       <div class="col-md-6 text-right">
-        <%= link_to '検索', '#', class: 'header-link' %>
+        <%= link_to '検索', books_path, class: 'header-link' %>
         <%= link_to 'ダッシュボード', '#', class: 'header-link' %>
         <% if logged_in? %>
           <p>ようこそ、<%= current_user.name %>さん (<%= current_user.role %>)</p>
