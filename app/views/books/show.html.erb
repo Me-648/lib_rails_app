@@ -8,3 +8,17 @@
 
   <%= button_to "Destroy this book", @book, method: :delete %>
 </div>
+
+<% if logged_in? %>
+  <% if @loan.present? %>
+    <!-- ユーザーが借りているなら返却ボタン -->
+    <%= button_to "返す", return_book_book_path(@book), method: :post %>
+  <% else %>
+    <% if @book.loans.where(returned_at: nil).count < @book.total_copies %>
+      <!-- 在庫があれば借りるボタン -->
+      <%= button_to "借りる", borrow_book_path(@book), method: :post %>
+    <% else %>
+      <p>在庫切れ</p>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show edit update  borrow return_book ]
 
   # GET /books or /books.json
   def index
@@ -8,6 +8,8 @@ class BooksController < ApplicationController
 
   # GET /books/1 or /books/1.json
   def show
+    # ログイン中ユーザが今借りているLoanを取得(返却してないものだけ)
+    @loan = @book.loans.find_by(user: current_user, returned_at: nil)
   end
 
   # GET /books/new
@@ -54,6 +56,32 @@ class BooksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to books_path, status: :see_other, notice: "Book was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def borrow
+    # 在庫が残っていれば貸出可能
+    if @book.loans.where(returned_at: nil).count < @book.total_copies
+      Loan.create!(
+        user: current_user,
+        book: @book,
+        borrowed_at: Time.current,
+        due_at: 2.weeks.from_now
+      )
+      redirect_to @book, notoice: "本を借りました"
+    else
+      redirect_to @book, alert: "在庫がありません"
+    end
+  end
+
+  def return_book
+    # 現在のユーザが借りているLoanを見つけて返却処理
+    loan = @book.loans.find_by(user: current_user, returned_at: nil)
+    if loan
+      loan.update!(returned_at: Time.current)
+      redirect_to @book, notice: "本を返却しました"
+    else
+      redirect_to @book, alert: "返却できる本がありません"
     end
   end
 
