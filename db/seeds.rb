@@ -12,5 +12,5 @@
 Book.create!(title: "Rubyの本", author: "しもはし", isbn: "1234", category: "小説", total_copies: 123)
 
 # Userサンプル
-User.create!(student_no: "12345", name: "山田太郎", role: "general", password: "pass")
-User.create!(student_no: "99999", name: "司書花子", role: "librarian", password: "admin")
+User.create!(student_no: "12345", name: "山田太郎", role: 0, password: "pass")
+User.create!(student_no: "99999", name: "司書花子", role: 1, password: "admin")

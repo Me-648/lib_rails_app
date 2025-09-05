@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update  borrow return_book ]
+  before_action :require_admin, only: %i[new create edit update
+  destroy]
 
   # GET /books or /books.json
   def index
@@ -105,5 +107,9 @@ class BooksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def book_params
       params.expect(book: [ :title, :author, :isbn, :category, :total_copies ])
+    end
+    
+    def require_admin
+      redirect_to root_path, alert: "権限がありません" unless current_user&.admin?
     end
 end

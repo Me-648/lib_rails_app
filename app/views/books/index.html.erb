@@ -41,4 +41,6 @@
   </tbody>
 </table>
 
-<%= link_to "新しい本を追加", new_book_path, class: "btn btn-success my-4" %>
+<% if current_user&.admin? %>
+  <%= link_to "新しい本を追加", new_book_path, class: "btn btn-success my-4" %>
+<% end %>
