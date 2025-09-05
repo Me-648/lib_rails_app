@@ -3,9 +3,11 @@ class LoansController < ApplicationController
 
   def overdue
     @loans = Loan.overdue.includes(:user, :book)
+    @books = Book.all
   end
 
   private
+  
   def require_admin
     unless current_user&.admin?
       redirect_to books_path, alert: "権限がありません"

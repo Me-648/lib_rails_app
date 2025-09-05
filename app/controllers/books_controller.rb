@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update  borrow return_book ]
+  before_action :set_book, only: %i[ show edit update  borrow return_book destroy ]
   before_action :require_admin, only: %i[new create edit update
   destroy]
 

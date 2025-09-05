@@ -2,12 +2,16 @@
 
 <%= render @book %>
 
-<div>
+<%
+=begin%>
+ <div>
   <%= link_to "Edit this book", edit_book_path(@book) %> |
   <%= link_to "Back to books", books_path %>
 
   <%= button_to "Destroy this book", @book, method: :delete %>
-</div>
+</div> 
+<%
+=end%>
 
 <% if logged_in? %>
   <% if @loan.present? %>
