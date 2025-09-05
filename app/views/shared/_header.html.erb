@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-6 text-right">
         <%= link_to '検索', books_path, class: 'header-link' %>
-        <%= link_to 'ダッシュボード', '#', class: 'header-link' %>
+        <%= link_to 'ダッシュボード', overdue_loans_path, class: 'header-link' %>
         <% if logged_in? %>
           <p>ようこそ、<%= current_user.name %>さん (<%= current_user.role %>)</p>
           <%= button_to 'ログアウト', logout_path, method: :delete %>

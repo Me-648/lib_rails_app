@@ -7,4 +7,17 @@ class Book < ApplicationRecord
   # モデルの関連付け
   has_many :loans
   has_many :users, through: :loans
+
+  # まだ返却されていない貸出数を数える
+  def borrowed_count
+    loans.where(returned_at: nil).count
+  end
+
+  def available_count
+    total_copies - borrowed_count
+  end
+
+  def stock_status
+    "#{available_count}/#{total_copies}"
+  end
 end
