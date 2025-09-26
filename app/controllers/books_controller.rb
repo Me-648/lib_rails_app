@@ -81,7 +81,7 @@ class BooksController < ApplicationController
         borrowed_at: Time.current,
         due_at: 2.weeks.from_now
       )
-      redirect_to @book, notoice: "本を借りました"
+      redirect_to @book, notice: "貸出処理が完了しました。"
     else
       redirect_to @book, alert: "在庫がありません"
     end

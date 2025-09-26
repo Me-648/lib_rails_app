@@ -1,28 +1,36 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @book %>
-
-<%
-=begin%>
- <div>
-  <%= link_to "Edit this book", edit_book_path(@book) %> |
-  <%= link_to "Back to books", books_path %>
-
-  <%= button_to "Destroy this book", @book, method: :delete %>
-</div> 
-<%
-=end%>
-
-<% if logged_in? %>
-  <% if @loan.present? %>
-    <!-- ユーザーが借りているなら返却ボタン -->
-    <%= button_to "返す", return_book_book_path(@book), method: :post %>
-  <% else %>
-    <% if @book.loans.where(returned_at: nil).count < @book.total_copies %>
-      <!-- 在庫があれば借りるボタン -->
-      <%= button_to "借りる", borrow_book_path(@book), method: :post %>
-    <% else %>
-      <p>在庫切れ</p>
-    <% end %>
-  <% end %>
+<% content_for :extra_css do %>
+  <%= stylesheet_link_tag "books-show", media: "all", "data-turbo-track": "reload" %>
 <% end %>
+
+<div class="m-6">
+  <h3 class="pt-4 pb-2">書籍詳細</h3>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title"><%= @book.title %></h4>
+      <p class="card-text">
+        <div class="mb-1"><strong>著者:</strong> <%= @book.author %></div>
+        <div class="mb-1"><strong>ISBN:</strong> <%= @book.isbn %></div>
+        <div class="mb-3"><strong>カテゴリ:</strong> <%= @book.category %></div>
+        <div class="mb-1"><strong>在庫:</strong> <%= @book.loans.where(returned_at: nil).count %> / <%= @book.total_copies %></div>
+      </p>
+  
+      <% if logged_in? %>
+        <% if @loan.present? %>
+          <%= button_to "返す", return_book_book_path(@book), method: :post, class: "btn btn-warning" %>
+        <% else %>
+          <% if @book.loans.where(returned_at: nil).count < @book.total_copies %>
+            <%= button_to "借りる", borrow_book_path(@book), method: :post, class: "btn btn-success" %>
+          <% else %>
+            <p class="text-danger">在庫切れ</p>
+          <% end %>
+        <% end %>
+      <% end %>
+  
+      <% if notice.present? %>
+        <div class="alert text-success mt-3 p-0">
+          <%= notice %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
