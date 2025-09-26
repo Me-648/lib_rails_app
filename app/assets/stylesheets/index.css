@@ -1,0 +1,30 @@
+.maxw-900{
+    max-width: 93rem;
+}
+
+/* 書籍一覧テーブル用 */
+.table-books {
+    width: 100%; /* テーブル全体を親幅いっぱいに */
+    table-layout: fixed; /* 幅を固定比率で調整する */
+  }
+  
+  .table-books th:nth-child(1),
+  .table-books td:nth-child(1) {
+    width: 35%;
+  }
+  
+  .table-books th:nth-child(2),
+  .table-books td:nth-child(2) {
+    width: 35%;
+  }
+  
+  .table-books th:nth-child(3),
+  .table-books td:nth-child(3) {
+    width: 15%;
+  }
+  
+  .table-books th:nth-child(4),
+  .table-books td:nth-child(4) {
+    width: 15%;
+  }
+  
