@@ -1,12 +1,26 @@
-<h2>ログイン</h2>
-<%= form_with url: login_path, local: true do |form|%>
-  <div>
-    <%= form.label :student_no, "学籍番号" %>
-    <%= form.text_field :student_no %>
-  </div>
-  <div>
-    <%= form.label :password, "パスワード" %>
-    <%= form.password_field :password %>
-  </div>
-  <%= form.submit "ログイン" %>
+<% content_for :extra_css do %>
+  <%= stylesheet_link_tag "login", media: "all", "data-turbo-track": "reload" %>
 <% end %>
+
+<div class="min-vh-100 d-flex flex-column bg-light">
+  <h4 class="mb-4 mt-4 ms-7 ml-11">ログイン</h2>
+  <div class="d-flex justify-content-center mt-4">
+    <div class="card maxw-450">
+      <div class="card-body p-4">
+        <%= form_with url: login_path, local: true, class: "w-100" do |form| %>
+          <div class="mb-3">
+            <%= form.label :student_no, "学籍番号", class: "form-label fw-bold" %>
+            <%= form.text_field :student_no, class: "form-control p-2", placeholder: "20250001" %>
+          </div>
+          <div class="mb-3">
+            <%= form.label :password, "パスワード", class: "form-label fw-bold" %>
+            <%= form.password_field :password, class: "form-control p-2" %>
+          </div>
+          <div class="d-grid">
+            <%= form.submit "ログイン", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
