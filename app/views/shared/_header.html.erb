@@ -1,19 +1,23 @@
-<header class="header">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <%= link_to '図書館システム', books_path, class: 'logo header-link' %>
-      </div>
-      <div class="col-md-6 text-right">
-        <%= link_to '検索', books_path, class: 'header-link' %>
-        <%= link_to 'ダッシュボード', overdue_loans_path, class: 'header-link' %>
-        <% if logged_in? %>
-          <p>ようこそ、<%= current_user.name %>さん (<%= current_user.role %>)</p>
-          <%= button_to 'ログアウト', logout_path, method: :delete %>
-        <% else %>
-          <%= link_to 'ログイン', login_path, class: 'header-link' %>
-        <% end %>
-      </div>
+<header class="header text-white py-2">
+  <div class="d-flex justify-content-between align-items-center w-100 px-3">
+    <!-- 左側 ロゴ -->
+    <div>
+      <%= link_to '図書館システム', books_path, class: 'logo header-link text-white font-weight-bold' %>
+      <% if logged_in? %>
+        <span class="ml-3">ようこそ、<%= current_user.name %>さん (<%= current_user.role %>)</span>
+      <% end %>
+    </div>
+
+    <!-- 右側 メニュー -->
+    <div class="d-flex align-items-center">
+      <%= link_to '検索', books_path, class: 'header-link text-white ml-3' %>
+      <%= link_to 'ダッシュボード', overdue_loans_path, class: 'header-link text-white ml-3' %>
+
+      <% if logged_in? %>
+        <%= button_to 'ログアウト', logout_path, method: :delete, class: "btn btn-link text-white ml-3" %>
+      <% else %>
+        <%= link_to 'ログイン', login_path, class: 'header-link text-white ml-3' %>
+      <% end %>
     </div>
   </div>
 </header>
