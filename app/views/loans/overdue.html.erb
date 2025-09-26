@@ -1,49 +1,57 @@
-<h2>書籍一覧</h2>
+<% content_for :extra_css do %>
+  <%= stylesheet_link_tag "books-show", media: "all", "data-turbo-track": "reload" %>
+<% end %>
 
-<table class="table table-bordered">
-  <thead class="thead-dark table-primary">
-    <tr>
-      <th>タイトル</th>
-      <th>著者</th>
-      <th>カテゴリ</th>
-      <th>在庫</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @books.each do |book| %>
+<div class="m-6">
+  <h3 class="mt-4">司書ダッシュボード</h3>
+  
+  <h4 class="mt-4">書籍一覧</h4>
+  <table class="table table-bordered">
+    <thead class="thead-dark table-secondary">
       <tr>
-        <td><%= book.title %></td>
-        <td><%= book.author %></td>
-        <td><%= book.category %></td>
-        <td><%= book.stock_status %></td>
-        <td>
-          <%= link_to "編集", edit_book_path(book) %>
-          <%= button_to "削除", book, method: :delete %>
-        </td>
+        <th>タイトル</th>
+        <th>著者</th>
+        <th>カテゴリ</th>
+        <th>在庫</th>
+        <th>操作</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<h2>延滞一覧</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>利用者</th>
-      <th>書籍</th>
-      <th>期限日</th>
-      <th>経過日数</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @loans.each do |loan| %>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.author %></td>
+          <td><%= book.category %></td>
+          <td><%= book.stock_status %></td>
+          <td>
+            <%= link_to "編集", edit_book_path(book), class: "text-primary" %>
+            <%= link_to "削除", book, method: :delete, data: { confirm: "削除してよろしいですか？" }, class: "text-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <h4>延滞一覧</h4>
+  <table class="table table-bordered">
+    <thead class="thead-dark table-secondary">
       <tr>
-        <td><%= loan.user.name %></td>
-        <td><%= loan.book.title %></td>
-        <td><%= loan.due_at.strftime("%Y-%m-%d") %></td>
-        <td><%= (Date.today - loan.due_at.to_date).to_i %>日</td>
+        <th>利用者</th>
+        <th>書籍</th>
+        <th>返却期限</th>
+        <th>日数超過</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @loans.each do |loan| %>
+        <% overdue_days = (Date.today - loan.due_at.to_date).to_i %>
+        <tr>
+          <td><%= "#{loan.user.student_no} #{loan.user.name}" %></td>
+          <td><%= loan.book.title %></td>
+          <td><%= loan.due_at.strftime("%Y-%m-%d") %></td>
+          <td class="text-danger"><%= overdue_days %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
