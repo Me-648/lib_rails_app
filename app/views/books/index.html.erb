@@ -1,44 +1,59 @@
-<p class="alert alert-success"><%= notice %></p>
+<% content_for :title, "書籍検索" %>
 
-<% content_for :title, "Books" %>
+<div class="container my-4">
 
-<h1 class="my-4">書籍検索</h1>
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="閉じる"></button>
+    </div>
+  <% end %>
 
-<%= form_with url: books_path, method: :get, local: true do |form| %>
-  <div class="row mb-4">
-    <div class="col-md-7">
+  <% if alert %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= alert %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="閉じる"></button>
+    </div>
+  <% end %>
+
+  <h3 class="mb-4">書籍検索</h3>
+
+  <%= form_with url: books_path, method: :get, local: true, class: "row g-2 mb-4" do |form| %>
+    <div class="col-md-6">
       <%= form.text_field :q, value: params[:q], class: "form-control", placeholder: "タイトル・著者を入力" %>
     </div>
-
-    <div class="col-md-2">
-      <%= form.select :category, Book.distinct.pluck(:category), include_blank: "全て", selected: params[:category], class: "form-control", prompt: "カテゴリ選択" %>
+    <div class="col-md-3">
+      <%= form.select :category, Book.distinct.pluck(:category), 
+          { include_blank: "全て", selected: params[:category] }, 
+          class: "form-select" %>
     </div>
-
-    <div class="col-md-1">
+    <div class="col-md-2">
       <%= form.submit "検索", class: "btn btn-primary w-100" %>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<table class="table table-bordered">
-  <thead class="thead-dark table-primary">
-    <tr>
-      <th>タイトル</th>
-      <th>著者</th>
-      <th>在庫</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @books.each do |book| %>
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
       <tr>
-        <td><%= link_to book.title, book_path(book) %></td>
-        <td><%= book.author %></td>
-        <td><%= book.stock_status %></td>
+        <th>タイトル</th>
+        <th>著者</th>
+        <th>カテゴリ</th>
+        <th>在庫</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td><%= link_to book.title, book_path(book), class: "text-decoration-none" %></td>
+          <td><%= book.author.presence || "N/A" %></td>
+          <td><%= book.category.presence || "-" %></td>
+          <td><%= book.stock_status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<% if current_user&.admin? %>
-  <%= link_to "新しい本を追加", new_book_path, class: "btn btn-success my-4" %>
-<% end %>
+  <% if current_user&.admin? %>
+    <%= link_to "新しい本を追加", new_book_path, class: "btn btn-success mt-3" %>
+  <% end %>
+</div>
