@@ -11,7 +11,11 @@
         <div class="mb-1"><strong>著者:</strong> <%= @book.author %></div>
         <div class="mb-1"><strong>ISBN:</strong> <%= @book.isbn %></div>
         <div class="mb-3"><strong>カテゴリ:</strong> <%= @book.category %></div>
-        <div class="mb-1"><strong>在庫:</strong> <%= @book.loans.where(returned_at: nil).count %> / <%= @book.total_copies %></div>
+        <% borrowed_count = @book.loans.where(returned_at: nil).count %>
+        <% stock = @book.total_copies - borrowed_count %>
+        <div class="mb-1">
+          <strong>在庫:</strong> <%= stock %> / <%= @book.total_copies %>
+        </div>
       </p>
   
       <% if logged_in? %>
