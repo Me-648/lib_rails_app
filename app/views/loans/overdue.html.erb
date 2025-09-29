@@ -1,5 +1,5 @@
 <% content_for :extra_css do %>
-  <%= stylesheet_link_tag "books-show", media: "all", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "books-show", media: "all", "data-turbo-track": "reload" %>
 <% end %>
 
 <div class="m-6">
@@ -18,16 +18,16 @@
     </thead>
     <tbody>
       <% @books.each do |book| %>
-        <tr class="bg-white">
-          <td><%= book.title %></td>
-          <td><%= book.author %></td>
-          <td><%= book.category %></td>
-          <td><%= book.stock_status %></td>
-          <td>
-            <%= link_to "編集", edit_book_path(book), class: "text-primary" %>
-            <%= link_to "削除", book, method: :delete, data: { confirm: "削除してよろしいですか？" }, class: "text-danger" %>
-          </td>
-        </tr>
+      <tr class="bg-white">
+        <td><%= book.title %></td>
+        <td><%= book.author %></td>
+        <td><%= book.category %></td>
+        <td><%= book.stock_status %></td>
+        <td class="d-flex gap-3">
+          <%= link_to "編集", edit_book_path(book), class: "text-primary text-decoration-none" %>
+          <%= button_to "削除", book, method: :delete, data: { confirm: "削除してよろしいですか？" }, class: "btn btn-link text-danger p-0 m-0 align-baseline text-decoration-none" %>
+        </td>
+      </tr>
       <% end %>
     </tbody>
   </table>
@@ -44,13 +44,13 @@
     </thead>
     <tbody>
       <% @loans.each do |loan| %>
-        <% overdue_days = (Date.today - loan.due_at.to_date).to_i %>
-        <tr class="bg-white">
-          <td><%= "#{loan.user.student_no} #{loan.user.name}" %></td>
-          <td><%= loan.book.title %></td>
-          <td><%= loan.due_at.strftime("%Y-%m-%d") %></td>
-          <td class="text-danger"><%= overdue_days %></td>
-        </tr>
+      <% overdue_days = (Date.today - loan.due_at.to_date).to_i %>
+      <tr class="bg-white">
+        <td><%= "#{loan.user.student_no} #{loan.user.name}" %></td>
+        <td><%= loan.book.title %></td>
+        <td><%= loan.due_at.strftime("%Y-%m-%d") %></td>
+        <td class="text-danger"><%= overdue_days %></td>
+      </tr>
       <% end %>
     </tbody>
   </table>

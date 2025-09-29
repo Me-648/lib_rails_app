@@ -5,7 +5,7 @@ class Book < ApplicationRecord
   validates :total_copies, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # モデルの関連付け
-  has_many :loans
+  has_many :loans, dependent: :destroy
   has_many :users, through: :loans
 
   # まだ返却されていない貸出数を数える
