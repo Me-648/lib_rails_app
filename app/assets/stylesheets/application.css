@@ -9,7 +9,7 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-.header {
+.header, .footer {
   background-color: #1D4ED8;
   color: #e5e7eb;
   padding: 10px 0;
@@ -29,4 +29,13 @@
 
 .header-link:hover {
   text-decoration: underline;
+}
+
+.footer {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
 }
