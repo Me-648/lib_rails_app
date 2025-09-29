@@ -9,19 +9,44 @@
 #   end
 
 # bookサンプル
-Book.create!(title: "Rubyの本", author: "しもはし", isbn: "1234", category: "小説", total_copies: 123)
-Book.create!(title: "坪内学園の真実", author: "だいちゃんカンパニー株式会社", isbn: "17", category: "小説", total_copies: 1)
-Book.create!(title: "1945年8.9", author: "JUN", isbn: "1", category: "芸術", total_copies: 3)
+# bookサンプル
+book1 = Book.find_or_create_by!(isbn: "1234") do |book|
+  book.title = "Rubyの本"
+  book.author = "しもはし"
+  book.category = "小説"
+  book.total_copies = 123
+end
+book2 = Book.find_or_create_by!(isbn: "17") do |book|
+  book.title = "坪内学園の真実"
+  book.author = "だいちゃんカンパニー株式会社"
+  book.category = "小説"
+  book.total_copies = 1
+end
+book3 = Book.find_or_create_by!(isbn: "1") do |book|
+  book.title = "1945年8.9"
+  book.author = "JUN"
+  book.category = "芸術"
+  book.total_copies = 3
+end
 
 # Userサンプル
-User.create!(student_no: "12345", name: "山田太郎", role: 0, password: "pass")
-User.create!(student_no: "99999", name: "司書花子", role: 1, password: "admin")
+user1 = User.find_or_create_by!(student_no: "12345") do |user|
+  user.name = "山田太郎"
+  user.role = 0
+  user.password = "pass"
+end
+user2 = User.find_or_create_by!(student_no: "99999") do |user|
+  user.name = "管理者"
+  user.role = 1
+  user.password = "admin"
+end
 
-# 延滞サンプル
-Loan.create!(
+# Loanサンプル（重複防止のために条件に注意）
+loan1 = Loan.find_or_create_by!(
   user_id: user1.id,
-  book_id: book.id,
-  borrowed_at: 1.month.ago,
-  due_at: 10.days.ago,
-  returned_at: nil  # まだ返却していない
-)
+  book_id: book1.id,
+  returned_at: nil
+) do |loan|
+  loan.borrowed_at = 1.month.ago
+  loan.due_at = 10.days.ago
+end
